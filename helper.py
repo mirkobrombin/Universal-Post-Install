@@ -23,24 +23,73 @@ import subprocess
 import models
 import commands
 
-so = "sudo"
+class shell_colors:
+    HEADER = '\033[95m'
+    INFO = '\033[94m'
+    SUCCESS = '\033[92m'
+    NORMAL = '\033[98m'
+    WARNING = '\033[93m'
+    ERROR = '\033[91m'
+    END = '\033[0m'
+    BOLD = '\033[1m'
 
-def do(command):
-    return commands.getstatusoutput(command)
+def do(command, sudo = False):
+    if sudo:
+        command = "sudo " + command
+    return commands.getstatusoutput(command)[1]
 
-def get_distro_info():
+def get_distro():
     distro = models.Distro()
     distro.name = do("lsb_release -i 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
     distro.codename = do("lsb_release -c 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
     distro.release = do("lsb_release -r 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
     return distro
 
-print get_distro_info().release
+def pkg_update(sys):
+    if sys == "apt":
+        return do("apt update", True)
+    if sys == "dnf":
+        return do("dnf update", True)
+    if sys == "pacman":
+        return do("pacman -Syu --noconfirm", True)
 
-def update(): 
-	return subprocess.call([so, aptget, "update"])
+def pkg_install(pkg, sys):
+    if sys == "apt":
+        return do("apt install " + pkg + " -y", True)
+    if sys == "dnf":
+        return do("dnf install " + pkg + " -y", True)
+    if sys == "pacman":
+        return do("pacman -S " + pkg + " --noconfirm", True)
 
-# DISTRO_NAME lsb_release -i 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-
-# DISTRO_CODENAME lsb_release -c 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-
-# DISTRO_RELEASE lsb_release -r 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-
+def pkg_upgrade(pkg, sys):
+    if sys == "apt":
+        return do("apt upgrade -y", True)
+    if sys == "dnf":
+        return do("dnf upgrade -y", True)
+    if sys == "pacman":
+        return do("pacman -Syu --noconfirm", True)
 
+def p_title(str):
+    print shell_colors.HEADER + shell_colors.BOLD + "=== " + str + " ===" + shell_colors.END
+
+def p_text(str):
+    print shell_colors.NORMAL + str + shell_colors.END
+
+def p_info(str):
+    print shell_colors.INFO + str + shell_colors.END
+
+def p_success(str):
+    print shell_colors.SUCCESS + str + shell_colors.END
+
+def p_error(str):
+    print shell_colors.ERROR + shell_colors.BOLD + "!!! " + str + " !!!" + shell_colors.END
+
+def p_warning(str):
+    print shell_colors.WARNING + shell_colors.BOLD + "!!! " + str + " !!!" + shell_colors.END
+
+def load_script():
+    distro_name = get_distro().name
+    try:
+        __import__("scripts." + distro_name)
+    except ImportError:
+        print "This distribution is currently not supported!"

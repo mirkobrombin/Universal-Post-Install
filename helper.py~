@@ -17,9 +17,30 @@
     along with Universal Post Install.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import os
+import platform
 import sys
 import subprocess
-import helper
+import models
+import commands
 
-helper.load_script()
+so = "sudo"
+
+def do(command):
+    return commands.getstatusoutput(command)
+
+def get_distro_info():
+    distro = models.Distro()
+    distro.name = do("lsb_release -i 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
+    distro.codename = do("lsb_release -c 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
+    distro.release = do("lsb_release -r 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
+    return distro
+
+print get_distro_info().release
+
+def update(): 
+	return subprocess.call([so, aptget, "update"])
+
+# DISTRO_NAME lsb_release -i 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-
+# DISTRO_CODENAME lsb_release -c 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-
+# DISTRO_RELEASE lsb_release -r 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-
+

@@ -16,10 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with Universal Post Install.  If not, see <http://www.gnu.org/licenses/>.
 '''
-
-import os
-import sys
-import subprocess
 import helper
 
-helper.load_script()
+helper.p_title("ElementaryOS post installation script by https://linuxhub.it")
+helper.p_text("Test")
