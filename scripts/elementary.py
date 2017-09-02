@@ -21,11 +21,13 @@ import helper
 # Define the package manager
 E = "apt"
 
-helper.title("ElementaryOS post installation script by https://linuxhub.it")
+helper.title("ElementaryOS")
+helper.author("Mirko Brombin")
+helper.website("https://linuxhub.it")
 
 # Check for release
-if helper.get_distro().codename == "loki":
-    helper.info("Loki detected")
+distro = helper.get_distro()
+if distro.codename == "loki":
     class PostInstall:
         global E
         # Define menu voices
@@ -37,29 +39,20 @@ if helper.get_distro().codename == "loki":
         
         # Define functions for each menu voice
         def install_elementary_tweaks(self):
-            helper.info("Installing dependence: software-properties-common")
             helper.pkg_install("software-properties-common", E)
-            helper.info("Adding repository: philip.scott/elementary-tweaks")
             helper.pkg_add_repo("philip.scott/elementary-tweaks", E)
-            helper.info("Updating..")
             helper.pkg_update(E)
-            helper.info("Installing: elementary-tweaks")
             helper.pkg_install("elementary-tweaks", E)
 
         def install_gimp(self):
-            helper.info("Updating..")
             helper.pkg_update(E)
-            helper.info("Installing: gimp")
             helper.pkg_install("gimp", E)
 
         def install_thunderbird(self):
-            helper.info("Updating..")
             helper.pkg_update(E)
-            helper.info("Installing: thunderbird")
             helper.pkg_install("thunderbird", E)
 else:
-    helper.warning("This script is not compatible with " + helper.get_distro().codename)
-    helper.exit()
+    helper.not_compatible()
 
 # Load script
 pi = PostInstall()

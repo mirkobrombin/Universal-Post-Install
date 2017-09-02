@@ -21,4 +21,5 @@ class Distro(object):
     name = ""
     codename = ""
     release = ""
+    lang = ""
 

@@ -17,7 +17,8 @@
    along with Universal Post Install.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import platform
+import os
+import re
 import sys
 import imp
 import subprocess
@@ -42,10 +43,18 @@ def do(command, sudo = False):
     return commands.getstatusoutput(command)[1]
 
 def exit():
-    return do('exit')
+    do('exit')
+    quit()
+    return
+
+def shorten(s, subs):
+    i = s.index(subs)
+    return s[:i+len(subs)-1]
 
 # This function reproduces the steps of the loaded PostInstall script
 def steps(voices, pi):
+    distro = get_distro()
+    info("Detected " + distro.codename)
     voices = [('Quit', '')] + voices
     menu = ""
     index = 0
@@ -54,16 +63,18 @@ def steps(voices, pi):
         index += 1
     key=True
     while key:
-        print menu
+        print "\n" + menu
         key=raw_input("Select operation:") 
         if key.isdigit():
             if key == "0":
-                info("Goodbye!")  
+                info("Goodbye!") 
                 sys.exit()
             try:
                 if voices[int(key)]:
                     bold("Loading: " + voices[int(key)][0] + "\n")
                     exec "pi." + voices[int(key)][1] + "()"
+                    success("Done!")
+                    bold("Select another voice")
             except IndexError:
                 warning("Not a valid choice! Try again!\n")
         else:
@@ -75,10 +86,12 @@ def get_distro():
     distro.name = do("lsb_release -i 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
     distro.codename = do("lsb_release -c 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
     distro.release = do("lsb_release -r 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
+    distro.lang = shorten(do("echo $LANG"), '.')
     return distro
 
 # These are the functions that interact with the distribution packet manager
 def pkg_add_repo(repo, engine):
+    info("Adding repository " + repo + "..")
     if engine == "apt":
         return do("add-apt-repository ppa:" + repo + " -y", True)
     if engine == "dnf":
@@ -89,6 +102,7 @@ def pkg_add_repo(repo, engine):
         return False
 
 def pkg_update(engine):
+    info("Updating..")
     if engine == "apt":
         return do("apt update", True)
     if engine == "dnf":
@@ -97,6 +111,7 @@ def pkg_update(engine):
         return do("pacman -Syu --noconfirm", True)
 
 def pkg_install(pkg, engine):
+    info("Installing " + pkg + "..")
     if engine == "apt":
         return do("apt install " + pkg + " -y", True)
     if engine == "dnf":
@@ -105,6 +120,7 @@ def pkg_install(pkg, engine):
         return do("pacman -S " + pkg + " --noconfirm", True)
 
 def pkg_remove(pkg, engine):
+    info("Removing " + pkg + "..")
     if engine == "apt":
         return do("apt remove " + pkg + " -y", True)
     if engine == "dnf":
@@ -113,6 +129,7 @@ def pkg_remove(pkg, engine):
         return do("pacman -R " + pkg + " --noconfirm", True)
 
 def pkg_upgrade(pkg, engine):
+    info("Upgrading " + pkg + "..")
     if engine == "apt":
         return do("apt upgrade -y", True)
     if engine == "dnf":
@@ -128,24 +145,39 @@ def text(str):
     print shell_colors.NORMAL + str + shell_colors.END
 
 def info(str):
-    print shell_colors.INFO + shell_colors.BOLD + "Info: " + str + shell_colors.END
+    print shell_colors.INFO + shell_colors.BOLD + str + shell_colors.END
 
 def bold(str):
     print shell_colors.NORMAL + shell_colors.BOLD + str + shell_colors.END
 
 def success(str):
-    print shell_colors.SUCCESS + shell_colors.BOLD + "Success: " + str + shell_colors.END
+    print shell_colors.SUCCESS + shell_colors.BOLD + str + shell_colors.END
 
 def error(str):
     print shell_colors.ERROR + shell_colors.BOLD + "Error: " + str + shell_colors.END
 
 def warning(str):
-    print shell_colors.WARNING + shell_colors.BOLD + "Warning: " + str + shell_colors.END
+    print shell_colors.WARNING + shell_colors.BOLD + str + shell_colors.END
+
+# Dummies functions to standardize script layouts
+def author(str):
+    if str != "":
+        text("Author: " + str)
+
+def website(str):
+    if str != "":
+        text("Website: " + str + "\n")
+
+def not_compatible():
+    distro = get_distro()
+    error("This script is not compatible with " + distro.codename)
+    exit()
 
 # This function loads the script for the current distribution
 def load_script():
-    distro_name = get_distro().name
+    os.system('clear')
+    distro = get_distro()
     try:
-        __import__("scripts." + distro_name)
+        __import__("scripts." + distro.name)
     except ImportError:
         print "This distribution is currently not supported!"
