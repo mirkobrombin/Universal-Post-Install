@@ -1,0 +1,57 @@
+'''
+   Copyright 2017 Mirko Brombin (brombinmirko@gmail.com)
+
+   This file is part of Universal Post Install.
+
+   Universal Post Install is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+          the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   Universal Post Install is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Universal Post Install.  If not, see <http://www.gnu.org/licenses/>.
+'''
+import helper
+
+helper.p_title("ElementaryOS post installation script by https://linuxhub.it")
+
+if helper.get_distro().codename == "loki":
+    helper.p_info("Loki detected")
+else:
+    helper.p_warning("This script is not compatible with " + helper.get_distro().codename)
+    helper.exit()
+
+def install_elementary_tweaks():
+    helper.p_info("Installing dependence: software-properties-common")
+    helper.pkg_install("software-properties-common", "apt")
+    helper.p_info("Adding repository: philip.scott/elementary-tweaks")
+    helper.pkg_add_repo("philip.scott/elementary-tweaks", "apt")
+    helper.p_info("Updating..")
+    helper.pkg_update("apt")
+    helper.p_info("Installing: elementary-tweaks")
+    helper.pkg_install("elementary-tweaks", "apt")
+
+def install_gimp():
+    helper.p_info("Updating..")
+    helper.pkg_update("apt")
+    helper.p_info("Installing: gimp")
+    helper.pkg_install("gimp", "apt")
+
+def install_thunderbird():
+    helper.p_info("Updating..")
+    helper.pkg_update("apt")
+    helper.p_info("Installing: thunderbird")
+    helper.pkg_install("thunderbird", "apt")
+
+voices = [
+    ("Install Elementary Tweaks", "install_elementary_tweaks"),
+    ("Install Gimp", "install_gimp"), 
+    ("Install Thunderbird", "install_thunderbird"),
+]
+
+helper.steps(voices)

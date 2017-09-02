@@ -22,5 +22,4 @@ import sys
 import subprocess
 import helper
 
-# Everything starts from the helper
 helper.load_script()

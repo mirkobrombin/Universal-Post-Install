@@ -35,7 +35,7 @@ class shell_colors:
     END = '\033[0m'
     BOLD = '\033[1m'
 
-# Dummy function that performs a command in the system terminal
+
 def do(command, sudo = False):
     if sudo:
         command = "sudo " + command
@@ -44,7 +44,6 @@ def do(command, sudo = False):
 def exit():
     return do('exit')
 
-# This function reproduces the steps of the loaded PostInstall script
 def steps(voices, pi):
     voices = [('Quit', '')] + voices
     menu = ""
@@ -58,18 +57,17 @@ def steps(voices, pi):
         key=raw_input("Select operation:") 
         if key.isdigit():
             if key == "0":
-                info("Goodbye!")  
+                p_info("Goodbye!")  
                 sys.exit()
             try:
                 if voices[int(key)]:
-                    bold("Loading: " + voices[int(key)][0] + "\n")
+                    p_bold("Loading: " + voices[int(key)][0] + "\n")
                     exec "pi." + voices[int(key)][1] + "()"
             except IndexError:
-                warning("Not a valid choice! Try again!\n")
+                p_warning("Not a valid choice! Try again!\n")
         else:
-            warning("Type a number!\n")
+            p_warning("Type a number!\n")
 
-# This function returns a template with current distribution information
 def get_distro():
     distro = models.Distro()
     distro.name = do("lsb_release -i 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
@@ -77,72 +75,27 @@ def get_distro():
     distro.release = do("lsb_release -r 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
     return distro
 
-# These are the functions that interact with the distribution packet manager
-def pkg_add_repo(repo, engine):
-    if engine == "apt":
-        return do("add-apt-repository ppa:" + repo + " -y", True)
-    if engine == "dnf":
-        do("dnf config-manager --add-repo " + repo + " -y", True)
-        return do("dnf config-manager --set-enabled " + repo + " -y", True)
-    if engine == "pacman":
-        print "Use helper.do(command, sudo) instead of this function."
-        return False
-
-def pkg_update(engine):
-    if engine == "apt":
-        return do("apt update", True)
-    if engine == "dnf":
-        return do("dnf update", True)
-    if engine == "pacman":
-        return do("pacman -Syu --noconfirm", True)
-
-def pkg_install(pkg, engine):
-    if engine == "apt":
-        return do("apt install " + pkg + " -y", True)
-    if engine == "dnf":
-        return do("dnf install " + pkg + " -y", True)
-    if engine == "pacman":
-        return do("pacman -S " + pkg + " --noconfirm", True)
-
-def pkg_remove(pkg, engine):
-    if engine == "apt":
-        return do("apt remove " + pkg + " -y", True)
-    if engine == "dnf":
-        return do("dnf remove " + pkg + " -y", True)
-    if engine == "pacman":
-        return do("pacman -R " + pkg + " --noconfirm", True)
-
-def pkg_upgrade(pkg, engine):
-    if engine == "apt":
-        return do("apt upgrade -y", True)
-    if engine == "dnf":
-        return do("dnf upgrade -y", True)
-    if engine == "pacman":
-        return do("pacman -Syu --noconfirm", True)
-
-# These are color schemes for each type of alert
-def title(str):
+def p_title(str):
     print shell_colors.HEADER + shell_colors.BOLD + "=== " + str + " ===" + shell_colors.END
 
-def text(str):
+def p_text(str):
     print shell_colors.NORMAL + str + shell_colors.END
 
-def info(str):
+def p_info(str):
     print shell_colors.INFO + shell_colors.BOLD + "Info: " + str + shell_colors.END
 
-def bold(str):
+def p_bold(str):
     print shell_colors.NORMAL + shell_colors.BOLD + str + shell_colors.END
 
-def success(str):
+def p_success(str):
     print shell_colors.SUCCESS + shell_colors.BOLD + "Success: " + str + shell_colors.END
 
-def error(str):
+def p_error(str):
     print shell_colors.ERROR + shell_colors.BOLD + "Error: " + str + shell_colors.END
 
-def warning(str):
+def p_warning(str):
     print shell_colors.WARNING + shell_colors.BOLD + "Warning: " + str + shell_colors.END
 
-# This function loads the script for the current distribution
 def load_script():
     distro_name = get_distro().name
     try:
