@@ -27,7 +27,7 @@ helper.website("https://linuxhub.it")
 
 # Check for release
 distro = helper.get_distro()
-if distro.codename == "loki":
+if distro.release == "0.4.1":
     class PostInstall:
         global E
         # Define menu voices

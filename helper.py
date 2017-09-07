@@ -54,7 +54,7 @@ def shorten(s, subs):
 # This function reproduces the steps of the loaded PostInstall script
 def steps(voices, pi):
     distro = get_distro()
-    info("Detected " + distro.codename)
+    info("Detected " + distro.name + " - " + distro.codename + " - " + distro.release)
     voices = [('Quit', '')] + voices
     menu = ""
     index = 0
@@ -170,7 +170,7 @@ def website(str):
 
 def not_compatible():
     distro = get_distro()
-    error("This script is not compatible with " + distro.codename)
+    error("This script is not compatible with " + distro.name + " - " + distro.release)
     exit()
 
 # This function loads the script for the current distribution
