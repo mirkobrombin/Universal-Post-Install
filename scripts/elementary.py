@@ -31,10 +31,15 @@ if distro.release == "0.4.1":
     class PostInstall:
         global E
         # Define menu voices
-        voices = [
+        voices_en_US = [
+            ("Install updates ", "install_updates"), 
             ("Install Elementary Tweaks", "install_elementary_tweaks"),
-            ("Install Gimp", "install_gimp"), 
             ("Install Thunderbird", "install_thunderbird"),
+        ]
+        voices_it_IT = [
+            ("Installa aggiornamenti", "install_updates"), 
+            ("Installa Elementary Tweaks", "install_elementary_tweaks"),
+            ("Installa Thunderbird", "install_thunderbird"),
         ]
         
         # Define functions for each menu voice
@@ -44,9 +49,9 @@ if distro.release == "0.4.1":
             helper.pkg_update(E)
             helper.pkg_install("elementary-tweaks", E)
 
-        def install_gimp(self):
+        def install_updates(self):
             helper.pkg_update(E)
-            helper.pkg_install("gimp", E)
+            helper.pkg_sys_upgrade(E)
 
         def install_thunderbird(self):
             helper.pkg_update(E)
@@ -56,4 +61,4 @@ else:
 
 # Load script
 pi = PostInstall()
-helper.steps(pi.voices, pi)
+helper.steps(eval('pi.voices_' + distro.lang), pi)

@@ -36,12 +36,6 @@ class shell_colors:
     END = '\033[0m'
     BOLD = '\033[1m'
 
-# Dummy function that performs a command in the system terminal
-def do(command, sudo = False):
-    if sudo:
-        command = "sudo " + command
-    return commands.getstatusoutput(command)[1]
-
 def exit():
     do('exit')
     quit()
@@ -50,6 +44,21 @@ def exit():
 def shorten(s, subs):
     i = s.index(subs)
     return s[:i+len(subs)-1]
+
+# Dummy function that performs a command in the system terminal
+def do(command, sudo = False):
+    if sudo:
+        command = "sudo " + command
+    return commands.getstatusoutput(command)[1]
+
+# This function returns a template with current distribution information
+def get_distro():
+    distro = models.Distro()
+    distro.name = do("lsb_release -i 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
+    distro.codename = do("lsb_release -c 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
+    distro.release = do("lsb_release -r 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
+    distro.lang = shorten(do("echo $LANG"), '.')
+    return distro
 
 # This function reproduces the steps of the loaded PostInstall script
 def steps(voices, pi):
@@ -79,15 +88,6 @@ def steps(voices, pi):
                 warning("Not a valid choice! Try again!\n")
         else:
             warning("Type a number!\n")
-
-# This function returns a template with current distribution information
-def get_distro():
-    distro = models.Distro()
-    distro.name = do("lsb_release -i 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
-    distro.codename = do("lsb_release -c 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
-    distro.release = do("lsb_release -r 2> /dev/null | sed 's/:\t/:/' | cut -d ':' -f 2-")
-    distro.lang = shorten(do("echo $LANG"), '.')
-    return distro
 
 # These are the functions that interact with the distribution packet manager
 def pkg_add_repo(repo, engine):
@@ -131,7 +131,16 @@ def pkg_remove(pkg, engine):
 def pkg_upgrade(pkg, engine):
     info("Upgrading " + pkg + "..")
     if engine == "apt":
-        return do("apt upgrade -y", True)
+        return do("apt upgrade " + pkg + " -y", True)
+    if engine == "dnf":
+        return do("dnf upgrade " + pkg + " -y", True)
+    if engine == "pacman":
+        return do("pacman -Syu " + pkg + " --noconfirm", True)
+
+def pkg_sys_upgrade(pkg, engine):
+    info("Upgrading " + pkg + "..")
+    if engine == "apt":
+        return do("apt full-upgrade -y", True)
     if engine == "dnf":
         return do("dnf upgrade -y", True)
     if engine == "pacman":
@@ -175,7 +184,6 @@ def not_compatible():
 
 # This function loads the script for the current distribution
 def load_script():
-    os.system('clear')
     distro = get_distro()
     try:
         __import__("scripts." + distro.name)
