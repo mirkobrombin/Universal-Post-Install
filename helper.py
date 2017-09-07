@@ -137,8 +137,8 @@ def pkg_upgrade(pkg, engine):
     if engine == "pacman":
         return do("pacman -Syu " + pkg + " --noconfirm", True)
 
-def pkg_sys_upgrade(pkg, engine):
-    info("Upgrading " + pkg + "..")
+def pkg_sys_upgrade(engine):
+    info("Upgrading your system ..")
     if engine == "apt":
         return do("apt full-upgrade -y", True)
     if engine == "dnf":
