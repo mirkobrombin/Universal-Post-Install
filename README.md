@@ -18,4 +18,4 @@ Scripts for each distribution are not necessarily written by the same creator of
 - ElementaryOS
 
 ## Your distribution is not supported?
-Ask for integration in the "Issues" section.
+Ask for integration in the [Issues](https://github.com/mirkobrombin/Universal-Post-Install/issues) section.
