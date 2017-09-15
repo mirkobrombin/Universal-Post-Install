@@ -72,7 +72,7 @@ def steps(voices, pi):
         index += 1
     key=True
     while key:
-        print "\n" + menu
+        print ("\n" + menu)
         key=raw_input("Select operation:") 
         if key.isdigit():
             if key == "0":
@@ -81,7 +81,7 @@ def steps(voices, pi):
             try:
                 if voices[int(key)]:
                     bold("Loading: " + voices[int(key)][0] + "\n")
-                    exec "pi." + voices[int(key)][1] + "()"
+                    exec ("pi." + voices[int(key)][1] + "()")
                     success("Done!")
                     bold("Select another voice")
             except IndexError:
@@ -98,7 +98,7 @@ def pkg_add_repo(repo, engine):
         do("dnf config-manager --add-repo " + repo + " -y", True)
         return do("dnf config-manager --set-enabled " + repo + " -y", True)
     if engine == "pacman":
-        print "Use helper.do(command, sudo) instead of this function."
+        print ("Use helper.do(command, sudo) instead of this function.")
         return False
 
 def pkg_update(engine):
@@ -148,25 +148,25 @@ def pkg_sys_upgrade(engine):
 
 # These are color schemes for each type of alert
 def title(str):
-    print shell_colors.HEADER + shell_colors.BOLD + "=== " + str + " ===" + shell_colors.END
+    print (shell_colors.HEADER + shell_colors.BOLD + "=== " + str + " ===" + shell_colors.END)
 
 def text(str):
-    print shell_colors.NORMAL + str + shell_colors.END
+    print (shell_colors.NORMAL + str + shell_colors.END)
 
 def info(str):
-    print shell_colors.INFO + shell_colors.BOLD + str + shell_colors.END
+    print (shell_colors.INFO + shell_colors.BOLD + str + shell_colors.END)
 
 def bold(str):
-    print shell_colors.NORMAL + shell_colors.BOLD + str + shell_colors.END
+    print (shell_colors.NORMAL + shell_colors.BOLD + str + shell_colors.END)
 
 def success(str):
-    print shell_colors.SUCCESS + shell_colors.BOLD + str + shell_colors.END
+    print (shell_colors.SUCCESS + shell_colors.BOLD + str + shell_colors.END)
 
 def error(str):
-    print shell_colors.ERROR + shell_colors.BOLD + "Error: " + str + shell_colors.END
+    print (shell_colors.ERROR + shell_colors.BOLD + "Error: " + str + shell_colors.END)
 
 def warning(str):
-    print shell_colors.WARNING + shell_colors.BOLD + str + shell_colors.END
+    print (shell_colors.WARNING + shell_colors.BOLD + str + shell_colors.END)
 
 # Dummies functions to standardize script layouts
 def author(str):
@@ -183,9 +183,12 @@ def not_compatible():
     exit()
 
 # This function loads the script for the current distribution
-def load_script():
+def load_script(type="cli"):
     distro = get_distro()
-    try:
-        __import__("scripts." + distro.name)
-    except ImportError:
-        print "This distribution is currently not supported!"
+    if type == "cli":
+        try:
+            __import__("scripts." + distro.name)
+        except ImportError:
+            print ("This distribution is currently not supported!")
+    else:
+        print ("Some dependencies are missing, trying to run CLI version..")

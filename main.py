@@ -18,10 +18,17 @@
     along with Universal Post Install.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import os
-import sys
-import subprocess
 import helper
+import argparse
+import sys
 
-# Everything starts from the helper
+# define script args
+parser = argparse.ArgumentParser(
+    description='Universal Post Install by https://linuxhub.it'
+)
+parser.add_argument('-gtk', action='store_true', 
+    help='run in GTK mode (currently not supported)')
+args = parser.parse_args()  
+
+# start the script
 helper.load_script()
