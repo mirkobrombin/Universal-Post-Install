@@ -22,7 +22,7 @@ import helper
 E = "apt"
  
 helper.title("Deepin")
-helper.author("Mirko Brombin")
+helper.author("Massimo Antonio Carofano & Mirko Brombin")
 helper.website("https://linuxhub.it")
  
 # Check for release
