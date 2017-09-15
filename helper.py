@@ -187,7 +187,7 @@ def load_script(type="cli"):
     distro = get_distro()
     if type == "cli":
         try:
-            __import__("scripts." + distro.name)
+            __import__("scripts." + distro.name.lower())
         except ImportError:
             print ("This distribution is currently not supported!")
     else:
