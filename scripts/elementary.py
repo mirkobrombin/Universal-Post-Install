@@ -36,6 +36,7 @@ if distro.release == "0.4.1":
             ("Enable Partner repository", "enable_partner"),
             ("Enable PPA (add-apt-repository)", "enable_ppa"),
             ("Install Elementary Tweaks", "install_elementary_tweaks"),
+            ("Install multimedia codecs ", "install_multimediacodecs"), 
             ("Install Eddy (deb installer) ", "install_eddy"), 
             ("Install Telegram ", "install_telegram"), 
             ("Install System Monitor ", "install_monitor"), 
@@ -43,8 +44,11 @@ if distro.release == "0.4.1":
             ("Remove Epiphany Browser ", "remove_epiphany"), 
             ("Install Firefox ", "install_firefox"), 
             ("Install Chromium ", "install_chromium"), 
+            ("Install snapd (for snap packages)", "install_snapd"), 
+            ("Install Redshift (eye protection) ", "install_redshift"), 
             ("Add .rar support ", "install_rar"), 
             ("Add .zip support ", "install_zip"), 
+            ("Install proprietary drivers", "install_drivers"),
             ("Install more applications ", "launch_appcenter"), 
         ]
         voices_it_IT = [
@@ -52,6 +56,7 @@ if distro.release == "0.4.1":
             ("Abilita Partner repository", "enable_partner"),
             ("Abilita PPA (add-apt-repository)", "enable_ppa"),
             ("Installa Elementary Tweaks", "install_elementary_tweaks"),
+            ("Installa codec multimediali", "install_multimediacodecs"),
             ("Installa Eddy (deb installer) ", "install_eddy"), 
             ("Installa Telegram ", "install_telegram"), 
             ("Installa Monitor di sistema ", "install_monitor"), 
@@ -59,8 +64,11 @@ if distro.release == "0.4.1":
             ("Rimuovi Browser Epiphany ", "remove_epiphany"),  
             ("Installa Firefox ", "install_firefox_it"), 
             ("Installa Chromium ", "install_chromium"), 
+            ("Installa snapd (per pacchetti snap)", "install_snapd"), 
+            ("Installa Redshift (protezione occhi) ", "install_redshift"), 
             ("Aggiungi supporto .rar ", "install_rar"), 
             ("Aggiungi supporto .zip ", "install_zip"), 
+            ("Installa driver proprietari", "install_drivers_it"),
             ("Installa altre applicazioni ", "launch_appcenter"), 
         ]
         
@@ -79,6 +87,10 @@ if distro.release == "0.4.1":
             helper.do('sudo sed -i.bak "/^# deb .*partner/ s/^# //" /etc/apt/sources.list', True)
             helper.pkg_update(E)
 
+        def install_multimediacodecs(self):
+            helper.pkg_install("ubuntu-restricted-extras", E)
+            helper.pkg_update(E)
+
         def enable_ppa(self):
             helper.pkg_install("software-properties-common", E)
             helper.pkg_update(E)
@@ -92,6 +104,14 @@ if distro.release == "0.4.1":
         def install_eddy(self):
             helper.pkg_install("com.github.donadigo.eddy", E)
             helper.pkg_update(E)
+
+        def install_drivers(self):
+            helper.do("ubuntu-drivers autoinstall", True)
+            helper.info("Reboot required!")
+
+        def install_drivers_it(self):
+            helper.do("ubuntu-drivers autoinstall", True)
+            helper.info("Riavvio richiesto!")
 
         def install_monitor(self):
             helper.pkg_install("com.github.stsdc.monitor", E)
@@ -119,6 +139,14 @@ if distro.release == "0.4.1":
 
         def install_chromium(self):
             helper.pkg_install("chromium-browser chromium-browser-l10n", E)
+            helper.pkg_update(E)
+
+        def install_snapd(self):
+            helper.pkg_install("snapd", E)
+            helper.pkg_update(E)
+
+        def install_redshift(self):
+            helper.pkg_install("redshift redshift-gtk", E)
             helper.pkg_update(E)
 
         def install_rar(self):
