@@ -6,7 +6,7 @@ Author: Mirko Brombin
 This script allows you to perform actions that are normally performed after installing a Linux distribution. The system automatically detects the distribution and language you are using and executes the appropriate script.
 
 ## How to use it?
-1. Grab an updated copy from [Releases](https://github.com/mirkobrombin/Universal-Post-Install/releases) section, or clone from GitHub:  
+1. Download the updated zip [here](https://github.com/mirkobrombin/Universal-Post-Install/archive/master.zip), or clone from GitHub:  
 	```git clone https://github.com/mirkobrombin/Universal-Post-Install.git```
 2. Unzip and execute **main.py**:
 	```./main.py```
