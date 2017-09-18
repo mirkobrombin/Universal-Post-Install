@@ -54,12 +54,12 @@ def do(command, sudo = False):
 # Get file permissions
 def perm(directory, set_perm=False, sudo=False):
     if set_perm == False:
-        if sudo == False:
-            return do("stat -c %a " + directory)
-        else:
-            return do("stat -c %a " + directory, True)
+        return do("stat -c %a " + directory)
     else:
-        return do("chmod " + set_perm + " " + directory)
+        if sudo == False:
+            return do("chmod " + set_perm + " " + directory)
+        else:
+            return do("chmod " + set_perm + " " + directory, True)
 
 # This function returns a template with current distribution information
 def get_distro():
