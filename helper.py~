@@ -52,12 +52,9 @@ def do(command, sudo = False):
     return commands.getstatusoutput(command)[1]
 
 # Get file permissions
-def perm(directory, set_perm=False, sudo=False):
+def perm(directory, set_perm=False):
     if set_perm == False:
-        if sudo == False:
-            return do("stat -c %a " + directory)
-        else:
-            return do("stat -c %a " + directory, True)
+        return do("stat -c %a " + directory)
     else:
         return do("chmod " + set_perm + " " + directory)
 

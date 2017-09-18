@@ -81,10 +81,10 @@ if distro.release == "15.4.1":
             helper.pkg_update(E)
 
         def activate_startup_sound(self):
-            helper.perm("/usr/share/sounds/deepin", "755", True)
+            helper.perm("/usr/share/sounds/deepin", "755")
 
         def disable_startup_sound(self):
-            helper.perm("/usr/share/sounds/deepin", "000", True)
+            helper.perm("/usr/share/sounds/deepin", "000")
         
         def install_deepinsysmonitor(self):
             helper.pkg_install("deepin-system-monitor", E)
