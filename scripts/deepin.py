@@ -60,11 +60,11 @@ if distro.release == "15.4.1":
         ]
        
         if helper.perm("/usr/share/sounds/deepin") == "000":
-            voices_en_US.append("Enable start-up sound", "activate_startup_sound")
-            voices_it_IT.append("Attiva suono di avvio", "activate_startup_sound")
+            voices_en_US.append(["Enable start-up sound", "activate_startup_sound"])
+            voices_it_IT.append(["Attiva suono di avvio", "activate_startup_sound"])
         else:
-            voices_en_US.append("Disable start-up sound", "disable_startup_sound")
-            voices_it_IT.append("Disattiva suono di avvio", "disable_startup_sound")
+            voices_en_US.append(["Disable start-up sound", "disable_startup_sound"])
+            voices_it_IT.append(["Disattiva suono di avvio", "disable_startup_sound"])
 
         # Define functions for each menu voice
         def install_garr_it(self):
