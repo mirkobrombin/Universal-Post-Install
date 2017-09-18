@@ -59,7 +59,7 @@ if distro.release == "15.4.1":
             ("Installa altre applicazioni ", "launch_store"), 
         ]
        
-        if helper.perm("/usr/share/sounds/deepin") == "000":
+        if helper.perm("/usr/share/sounds/deepin") == "0":
             voices_en_US.append(["Enable start-up sound", "activate_startup_sound"])
             voices_it_IT.append(["Attiva suono di avvio", "activate_startup_sound"])
         else:

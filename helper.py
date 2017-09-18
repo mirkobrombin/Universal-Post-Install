@@ -54,6 +54,7 @@ def do(command, sudo = False):
 # Get file permissions
 def perm(directory, set_perm=False, sudo=False):
     if set_perm == False:
+        print "stat -c %a " + directory
         return do("stat -c %a " + directory)
     else:
         if sudo == False:
