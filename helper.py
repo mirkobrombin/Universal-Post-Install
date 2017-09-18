@@ -51,6 +51,13 @@ def do(command, sudo = False):
         command = "sudo " + command
     return commands.getstatusoutput(command)[1]
 
+# Get file permissions
+def perm(directory, set_perm=False):
+    if set_perm == False:
+        return do("stat -c %a " + directory)
+    else:
+        return do("chmod " + set_perm + " " + directory)
+
 # This function returns a template with current distribution information
 def get_distro():
     distro = models.Distro()

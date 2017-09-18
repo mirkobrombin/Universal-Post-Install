@@ -59,6 +59,13 @@ if distro.release == "15.4.1":
             ("Installa altre applicazioni ", "launch_store"), 
         ]
        
+        if helper.perm("/usr/share/sounds/deepin") == "000":
+            voices_en_US.append("Enable start-up sound", "activate_startup_sound")
+            voices_it_IT.append("Attiva suono di avvio", "activate_startup_sound")
+        else:
+            voices_en_US.append("Disable start-up sound", "disable_startup_sound")
+            voices_it_IT.append("Disattiva suono di avvio", "disable_startup_sound")
+
         # Define functions for each menu voice
         def install_garr_it(self):
             helper.do("cd")
@@ -72,6 +79,12 @@ if distro.release == "15.4.1":
         def install_ddi(self):
             helper.pkg_install("deepin-deb-installer", E)
             helper.pkg_update(E)
+
+        def activate_startup_sound(self):
+            helper.perm("/usr/share/sounds/deepin", "755")
+
+        def disable_startup_sound(self):
+            helper.perm("/usr/share/sounds/deepin", "000")
         
         def install_deepinsysmonitor(self):
             helper.pkg_install("deepin-system-monitor", E)
