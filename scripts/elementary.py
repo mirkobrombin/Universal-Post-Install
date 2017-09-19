@@ -79,7 +79,7 @@ if distro.release == "0.4.1":
 
         def install_elementary_tweaks(self):
             self.enable_ppa()
-            helper.pkg_add_repo("philip.scott/elementary-tweaks", E)
+            helper.pkg_add_repo("ppa:philip.scott/elementary-tweaks", E)
             helper.pkg_update(E)
             helper.pkg_install("elementary-tweaks", E)
 
@@ -97,7 +97,7 @@ if distro.release == "0.4.1":
         
         def install_telegram(self):
             self.enable_ppa()
-            helper.pkg_add_repo("atareao/telegram", E)
+            helper.pkg_add_repo("ppa:atareao/telegram", E)
             helper.pkg_update(E)
             helper.pkg_install("telegram", E)
 

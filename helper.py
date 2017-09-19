@@ -104,7 +104,7 @@ def steps(voices, pi):
 def pkg_add_repo(repo, engine):
     info("Adding repository " + repo + "..")
     if engine == "apt":
-        return do("add-apt-repository ppa:" + repo + " -y", True)
+        return do("add-apt-repository " + repo + " -y", True)
     if engine == "dnf":
         do("dnf config-manager --add-repo " + repo + " -y", True)
         return do("dnf config-manager --set-enabled " + repo + " -y", True)
