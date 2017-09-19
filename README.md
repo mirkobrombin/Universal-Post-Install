@@ -18,6 +18,7 @@ Scripts for each distribution are not necessarily written by the same creator of
 - ElementaryOS
 - Deepin
 - Ubuntu
+- Debian (under development, not tested)
 
 ## Your distribution is not supported?
 Ask for integration in the [Issues](https://github.com/mirkobrombin/Universal-Post-Install/issues) section.
