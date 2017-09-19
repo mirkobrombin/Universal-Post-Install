@@ -73,8 +73,12 @@ if distro.release == "0.4.1":
         ]
         
         # Define functions for each menu voice
-        def install_elementary_tweaks(self):
+        def enable_ppa(self):
             helper.pkg_install("software-properties-common", E)
+            helper.pkg_update(E)
+
+        def install_elementary_tweaks(self):
+            self.enable_ppa()
             helper.pkg_add_repo("philip.scott/elementary-tweaks", E)
             helper.pkg_update(E)
             helper.pkg_install("elementary-tweaks", E)
@@ -90,13 +94,9 @@ if distro.release == "0.4.1":
         def install_multimediacodecs(self):
             helper.pkg_install("ubuntu-restricted-extras", E)
             helper.pkg_update(E)
-
-        def enable_ppa(self):
-            helper.pkg_install("software-properties-common", E)
-            helper.pkg_update(E)
         
         def install_telegram(self):
-            helper.pkg_install("software-properties-common", E)
+            self.enable_ppa()
             helper.pkg_add_repo("atareao/telegram", E)
             helper.pkg_update(E)
             helper.pkg_install("telegram", E)
