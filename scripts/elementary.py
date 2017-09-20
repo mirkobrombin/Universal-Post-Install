@@ -35,6 +35,7 @@ if distro.release == "0.4.1":
             ("Install updates ", "install_updates"), 
             ("Enable Partner repository", "enable_partner"),
             ("Enable PPA (add-apt-repository)", "enable_ppa"),
+            ("Enable elementary daily (for testing purpose)", "enable_daily"),
             ("Install Elementary Tweaks", "install_elementary_tweaks"),
             ("Install multimedia codecs ", "install_multimediacodecs"), 
             ("Install Eddy (deb installer) ", "install_eddy"), 
@@ -55,6 +56,7 @@ if distro.release == "0.4.1":
             ("Installa aggiornamenti", "install_updates"), 
             ("Abilita Partner repository", "enable_partner"),
             ("Abilita PPA (add-apt-repository)", "enable_ppa"),
+            ("Abilita elementary daily (solo a scopo di test)", "enable_daily"),
             ("Installa Elementary Tweaks", "install_elementary_tweaks"),
             ("Installa codec multimediali", "install_multimediacodecs"),
             ("Installa Eddy (deb installer) ", "install_eddy"), 
@@ -77,15 +79,20 @@ if distro.release == "0.4.1":
             helper.pkg_install("software-properties-common", E)
             helper.pkg_update(E)
 
+        def install_updates(self):
+            helper.pkg_update(E)
+            helper.pkg_sys_upgrade(E)
+
+        def enable_daily(self):
+            self.enable_ppa()
+            helper.pkg_add_repo("ppa:philip.scott/elementary-tweaks", E)
+            self.install_updates()
+
         def install_elementary_tweaks(self):
             self.enable_ppa()
             helper.pkg_add_repo("ppa:philip.scott/elementary-tweaks", E)
             helper.pkg_update(E)
             helper.pkg_install("elementary-tweaks", E)
-
-        def install_updates(self):
-            helper.pkg_update(E)
-            helper.pkg_sys_upgrade(E)
 
         def enable_partner(self):
             helper.do('sudo sed -i.bak "/^# deb .*partner/ s/^# //" /etc/apt/sources.list', True)
