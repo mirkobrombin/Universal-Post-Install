@@ -85,7 +85,7 @@ if distro.release == "0.4.1":
 
         def enable_daily(self):
             self.enable_ppa()
-            helper.pkg_add_repo("ppa:philip.scott/elementary-tweaks", E)
+            helper.pkg_add_repo("ppa:elementary-os/daily", E)
             self.install_updates()
 
         def install_elementary_tweaks(self):
