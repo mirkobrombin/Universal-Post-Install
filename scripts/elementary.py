@@ -37,6 +37,7 @@ if distro.release == "0.4.1":
             ("Enable PPA (add-apt-repository)", "enable_ppa"),
             ("Enable elementary daily (for testing purpose)", "enable_daily"),
             ("Install Elementary Tweaks", "install_elementary_tweaks"),
+            ("Install Elementary Plus", "install_elementary_plus"),
             ("Install multimedia codecs ", "install_multimediacodecs"), 
             ("Install Eddy (deb installer) ", "install_eddy"), 
             ("Install Telegram ", "install_telegram"), 
@@ -58,6 +59,7 @@ if distro.release == "0.4.1":
             ("Abilita PPA (add-apt-repository)", "enable_ppa"),
             ("Abilita elementary daily (solo a scopo di test)", "enable_daily"),
             ("Installa Elementary Tweaks", "install_elementary_tweaks"),
+            ("Installa Elementary Plus", "install_elementary_plus"),
             ("Installa codec multimediali", "install_multimediacodecs"),
             ("Installa Eddy (deb installer) ", "install_eddy"), 
             ("Installa Telegram ", "install_telegram"), 
@@ -93,6 +95,12 @@ if distro.release == "0.4.1":
             helper.pkg_add_repo("ppa:philip.scott/elementary-tweaks", E)
             helper.pkg_update(E)
             helper.pkg_install("elementary-tweaks", E)
+
+        def install_elementary_plus(self):
+            self.enable_ppa()
+            helper.pkg_add_repo("ppa:cybre/elementaryplus", E)
+            helper.pkg_update(E)
+            helper.pkg_install("elementaryplus", E)
 
         def enable_partner(self):
             helper.do('sudo sed -i.bak "/^# deb .*partner/ s/^# //" /etc/apt/sources.list', True)
