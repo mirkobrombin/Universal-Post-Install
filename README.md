@@ -10,6 +10,9 @@ This script allows you to perform actions that are normally performed after inst
 	```git clone https://github.com/mirkobrombin/Universal-Post-Install.git```
 2. Unzip and execute **main.py**:
 	```./main.py```
+## Run with beta -gtk flag
+Unzip and execute **main.py** with -gtk flag:
+	```./main.py -gtk```
 
 ## Translations:
 Scripts for each distribution are not necessarily written by the same creator of UPI, so it may happen that it is not available in the language of your system. If the script did not find a version that corresponds to your language, it will load it in English.
