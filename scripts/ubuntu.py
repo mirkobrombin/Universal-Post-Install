@@ -59,27 +59,27 @@ if distro.release == "17.04":
         ]
         
         # Define functions for each menu voice
-        def install_updates(self):
+        def install_updates(self, g=False):
             helper.pkg_update(E)
             helper.pkg_sys_upgrade(E)
 
-        def enable_partner(self):
+        def enable_partner(self, g=False):
             helper.do('sudo sed -i.bak "/^# deb .*partner/ s/^# //" /etc/apt/sources.list', True)
             helper.pkg_update(E)
 
-        def install_multimediacodecs(self):
+        def install_multimediacodecs(self, g=False):
             helper.pkg_install("ubuntu-restricted-extras", E)
             helper.pkg_update(E)
 
-        def install_drivers(self):
+        def install_drivers(self, g=False):
             helper.do("ubuntu-drivers autoinstall", True)
             helper.info("Reboot required!")
 
-        def install_drivers_it(self):
+        def install_drivers_it(self, g=False):
             helper.do("ubuntu-drivers autoinstall", True)
             helper.info("Riavvio richiesto!")
 
-        def install_gdebi(self):
+        def install_gdebi(self, g=False):
             helper.pkg_install("gdebi", E)
             helper.pkg_update(E)
 

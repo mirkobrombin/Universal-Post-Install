@@ -17,6 +17,17 @@
    along with Universal Post Install.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import helper
+import sys
+import os
+
+g = False
+
+for px in sys.argv:
+    if px == '--gtk':
+        idx = sys.argv.index(px)
+        sys.argv.pop(idx)
+        g = sys.argv[idx]
+        sys.argv.pop(idx)
 
 # Define the package manager
 E = "apt"
@@ -77,102 +88,102 @@ if distro.release == "0.4.1":
         ]
         
         # Define functions for each menu voice
-        def enable_ppa(self):
+        def enable_ppa(self, g=False):
             helper.pkg_install("software-properties-common", E)
             helper.pkg_update(E)
 
-        def install_updates(self):
+        def install_updates(self, g=False):
             helper.pkg_update(E)
             helper.pkg_sys_upgrade(E)
 
-        def enable_daily(self):
+        def enable_daily(self, g=False):
             self.enable_ppa()
             helper.pkg_add_repo("ppa:elementary-os/daily", E)
             self.install_updates()
 
-        def install_elementary_tweaks(self):
+        def install_elementary_tweaks(self, g=False):
             self.enable_ppa()
             helper.pkg_add_repo("ppa:philip.scott/elementary-tweaks", E)
             helper.pkg_update(E)
             helper.pkg_install("elementary-tweaks", E)
 
-        def install_elementary_plus(self):
+        def install_elementary_plus(self, g=False):
             self.enable_ppa()
             helper.pkg_add_repo("ppa:cybre/elementaryplus", E)
             helper.pkg_update(E)
             helper.pkg_install("elementaryplus", E)
 
-        def enable_partner(self):
+        def enable_partner(self, g=False):
             helper.do('sudo sed -i.bak "/^# deb .*partner/ s/^# //" /etc/apt/sources.list', True)
             helper.pkg_update(E)
 
-        def install_multimediacodecs(self):
+        def install_multimediacodecs(self, g=False):
             helper.pkg_install("ubuntu-restricted-extras", E)
             helper.pkg_update(E)
         
-        def install_telegram(self):
+        def install_telegram(self, g=False):
             self.enable_ppa()
             helper.pkg_add_repo("ppa:atareao/telegram", E)
             helper.pkg_update(E)
             helper.pkg_install("telegram", E)
 
-        def install_eddy(self):
+        def install_eddy(self, g=False):
             helper.pkg_install("com.github.donadigo.eddy", E)
             helper.pkg_update(E)
 
-        def install_drivers(self):
+        def install_drivers(self, g=False):
             helper.do("ubuntu-drivers autoinstall", True)
             helper.info("Reboot required!")
 
-        def install_drivers_it(self):
+        def install_drivers_it(self, g=False):
             helper.do("ubuntu-drivers autoinstall", True)
             helper.info("Riavvio richiesto!")
 
-        def install_monitor(self):
+        def install_monitor(self, g=False):
             helper.pkg_install("com.github.stsdc.monitor", E)
             helper.pkg_update(E)
 
-        def install_libreoffice(self):
+        def install_libreoffice(self, g=False):
             helper.pkg_install("libreoffice", E)
             helper.pkg_update(E)
 
-        def install_libreoffice_it(self):
+        def install_libreoffice_it(self, g=False):
             helper.pkg_install("libreoffice libreoffice-l10n-it", E)
             helper.pkg_update(E)
 
-        def remove_epiphany(self):
+        def remove_epiphany(self, g=False):
             helper.pkg_remove("epiphany-browser", E)
             helper.pkg_update(E)
 
-        def install_firefox(self):
+        def install_firefox(self, g=False):
             helper.pkg_install("firefox", E)
             helper.pkg_update(E)
 
-        def install_firefox_it(self):
+        def install_firefox_it(self, g=False):
             helper.pkg_install("firefox firefox-locale-it", E)
             helper.pkg_update(E)
 
-        def install_chromium(self):
+        def install_chromium(self, g=False):
             helper.pkg_install("chromium-browser chromium-browser-l10n", E)
             helper.pkg_update(E)
 
-        def install_snapd(self):
+        def install_snapd(self, g=False):
             helper.pkg_install("snapd", E)
             helper.pkg_update(E)
 
-        def install_redshift(self):
+        def install_redshift(self, g=False):
             helper.pkg_install("redshift redshift-gtk", E)
             helper.pkg_update(E)
 
-        def install_rar(self):
+        def install_rar(self, g=False):
             helper.pkg_install("rar urar", E)
             helper.pkg_update(E)
 
-        def install_zip(self):
+        def install_zip(self, g=False):
             helper.pkg_install("unzip", E)
             helper.pkg_update(E)
 
-        def launch_appcenter(self):
+        def launch_appcenter(self, g=False):
             helper.pkg_install("screen", E)
             helper.do("screen -d -m appcenter")
 else:
@@ -184,4 +195,4 @@ try:
     voices = eval('pi.voices_' + distro.lang)
 except AttributeError:
     voices = pi.voices_en_US
-helper.steps(voices, pi)
+helper.steps(voices, pi, g)

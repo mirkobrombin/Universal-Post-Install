@@ -72,69 +72,69 @@ if distro.release == "9.1.0":
         ]
         
         # Define functions for each menu voice
-        def install_updates(self):
+        def install_updates(self, g=False):
             helper.pkg_update(E)
             helper.pkg_sys_upgrade(E)
 
-        def enable_ppa(self):
+        def enable_ppa(self, g=False):
             helper.pkg_install("software-properties-common", E)
             helper.pkg_update(E)
 
-        def install_gdebi(self):
+        def install_gdebi(self, g=False):
             helper.pkg_install("gdebi", E)
             helper.pkg_update(E)
 
-        def install_qapt(self):
+        def install_qapt(self, g=False):
             helper.pkg_install("qapt-deb-installer", E)
             helper.pkg_update(E)
 
-        def install_gnome(self):
+        def install_gnome(self, g=False):
             helper.pkg_install("gnome", E)
             helper.pkg_update(E)
 
-        def install_kde(self):
+        def install_kde(self, g=False):
             helper.pkg_install("kde-full", E)
             helper.pkg_update(E)
 
-        def install_xfce(self):
+        def install_xfce(self, g=False):
             helper.pkg_install("xfce4 xfce4-goodies", E)
             helper.pkg_update(E)
 
-        def install_mate(self):
+        def install_mate(self, g=False):
             helper.pkg_install("mate-desktop-environment", E)
             helper.pkg_update(E)
 
-        def install_lxde(self):
+        def install_lxde(self, g=False):
             helper.pkg_install("lxde", E)
             helper.pkg_update(E)
 
-        def install_cinnamon(self):
+        def install_cinnamon(self, g=False):
             helper.pkg_install("cinnamon", E)
             helper.pkg_update(E)
 
-        def install_lxqt(self):
+        def install_lxqt(self, g=False):
             helper.pkg_install("lxqt", E)
             helper.pkg_update(E)
 
-        def install_budgie(self):
+        def install_budgie(self, g=False):
             helper.pkg_install("budgie-desktop", E)
             helper.pkg_update(E)
 
-        def install_openbox(self):
+        def install_openbox(self, g=False):
             helper.pkg_install("openbox menu", E)
             helper.pkg_update(E)
 
-        def install_fluxbox(self):
+        def install_fluxbox(self, g=False):
             helper.pkg_install("fluxbox", E)
             helper.pkg_update(E)
 
-        def install_multimediacodecs(self):
+        def install_multimediacodecs(self, g=False):
             self.enable_ppa()
             helper.pkg_add_repo("'deb http://www.deb-multimedia.org stretch main non-free'", E)
             helper.pkg_install("deb-multimedia-keyring libdvdcss2", E)
             helper.pkg_update(E)
 
-        def install_mscorefonts(self):
+        def install_mscorefonts(self, g=False):
             helper.do("mkdir temp", True)
             helper.do("cd temp", True)
             helper.do("wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttfmscorefonts-installer_3.6_all.deb", True)

@@ -24,6 +24,9 @@ import imp
 import subprocess
 import models
 import commands
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, Gdk
 from itertools import chain
 
 class shell_colors:
@@ -72,33 +75,57 @@ def get_distro():
     return distro
 
 # This function reproduces the steps of the loaded PostInstall script
-def steps(voices, pi):
+def steps(voices, pi, gtk=False):
     distro = get_distro()
-    info("Detected " + distro.name + " - " + distro.codename + " - " + distro.release)
-    voices = [('Quit', '')] + voices
-    menu = ""
-    index = 0
-    for voice in voices:
-        menu = menu + "[" + str(index) + "] " + voice[0] + "\n"
-        index += 1
-    key=True
-    while key:
-        print ("\n" + menu)
-        key=raw_input("Select operation:") 
-        if key.isdigit():
-            if key == "0":
-                info("Goodbye!") 
-                sys.exit()
-            try:
-                if voices[int(key)]:
-                    bold("Loading: " + voices[int(key)][0] + "\n")
-                    exec ("pi." + voices[int(key)][1] + "()")
-                    success("Done!")
-                    bold("Select another voice")
-            except IndexError:
-                warning("Not a valid choice! Try again!\n")
-        else:
-            warning("Type a number!\n")
+    if gtk==False:
+        index = 0
+        voices = [('Quit', '')] + voices
+        menu = ""
+        for voice in voices:
+            menu = menu + "[" + str(index) + "] " + voice[0] + "\n"
+            index += 1
+        info("Detected " + distro.name + " - " + distro.codename + " - " + distro.release)
+        key=True
+        while key:
+            print ("\n" + menu)
+            key=raw_input("Select operation:") 
+            if key.isdigit():
+                if key == "0":
+                    info("Goodbye!") 
+                    sys.exit()
+                try:
+                    if voices[int(key)]:
+                        bold("Loading: " + voices[int(key)][0] + "\n")
+                        exec ("pi." + voices[int(key)][1] + "()")
+                        success("Done!")
+                        bold("Select another voice")
+                except IndexError:
+                    warning("Not a valid choice! Try again!\n")
+            else:
+                warning("Type a number!\n")
+    else:
+        index=0
+        win = Gtk.Window(title="UPI - " + distro.name + " - " + distro.codename)
+        win.set_border_width(10)
+        hb = Gtk.HeaderBar()
+        hb.set_show_close_button(True)
+        hb.props.title = "UPI - " + distro.name + " - " + distro.codename
+        win.set_titlebar(hb)
+        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        distro_label = Gtk.Label("Detected " + distro.name + " - " + distro.codename + " - " + distro.release)
+        vbox.pack_start(distro_label, True, True, 0)
+        btn_quit = Gtk.Button.new_with_label("Quit")
+        btn_quit.connect("clicked", sys.exit)
+        vbox.pack_start(btn_quit, True, True, 0)
+        for voice in voices:
+            index += 1
+            exec("btn_"+str(index)+" = Gtk.Button.new_with_label('"+voice[0]+"')")
+            exec("btn_"+str(index)+".connect('clicked', pi."+voice[1]+")")
+            exec("vbox.pack_start(btn_"+str(index)+", True, True, 0)")
+        win.add(vbox)
+        win.connect("delete-event", Gtk.main_quit)
+        win.show_all()
+        Gtk.main()
 
 # These are the functions that interact with the distribution packet manager
 def pkg_add_repo(repo, engine):
@@ -196,10 +223,12 @@ def not_compatible():
 # This function loads the script for the current distribution
 def load_script(type="cli"):
     distro = get_distro()
-    if type == "cli":
-        try:
+    try:
+        if type == "cli":
             __import__("scripts." + distro.name.lower())
-        except ImportError:
-            print ("This distribution is currently not supported!")
-    else:
-        print ("Some dependencies are missing, trying to run CLI version..")
+        else:
+            sys.argv.append('--gtk')
+            sys.argv.append(True)
+            __import__("scripts." + distro.name.lower())
+    except ImportError:
+        print ("This distribution is currently not supported!")

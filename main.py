@@ -27,8 +27,11 @@ parser = argparse.ArgumentParser(
     description='Universal Post Install by https://linuxhub.it'
 )
 parser.add_argument('-gtk', action='store_true', 
-    help='run in GTK mode (currently not supported)')
+    help='run in GTK mode')
 args = parser.parse_args()  
 
 # start the script
-helper.load_script()
+if args.gtk == True:
+    helper.load_script(type="gtk")
+else:
+    helper.load_script()
