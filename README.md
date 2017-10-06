@@ -7,7 +7,7 @@ This script allows you to perform actions that are normally performed after inst
 
 ## How to use it?
 Download the updated zip [here](https://github.com/mirkobrombin/Universal-Post-Install/archive/master.zip), or clone from GitHub:  
-	```git clone https://github.com/mirkobrombin/Universal-Post-Install.git```
+	```git clone https://github.com/mirkobrombin/Universal-Post-Install.git```  
 If you downloaded the archive, extract it. Now choose one of the following methods:
 
 ### CLI mode (recommended)
@@ -26,6 +26,11 @@ Scripts for each distribution are not necessarily written by the same creator of
 - Deepin
 - Ubuntu
 - Debian (under development, not tested)
+
+## Custom configurations for UPI?
+On certain situations, it is useful to provide your **collaborators** with a tool for installing/removing/updating packages and performing various types of operations.  
+UPI is an easy-to-use tool, if you're interested in creating a custom post-installation script, just fork the project and create your script in the **scripts** folder.
+At the moment I am working on a detailed **Wiki** where to step by step how to create a custom script.
 
 ## Your distribution is not supported?
 Ask for integration in the [Issues](https://github.com/mirkobrombin/Universal-Post-Install/issues) section.
