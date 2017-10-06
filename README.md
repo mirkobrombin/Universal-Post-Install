@@ -27,10 +27,11 @@ Scripts for each distribution are not necessarily written by the same creator of
 - Ubuntu
 - Debian (under development, not tested)
 
+### Your distribution is not supported?
+Ask for integration in the [Issues](https://github.com/mirkobrombin/Universal-Post-Install/issues) section.
+
 ## Custom configurations for UPI?
 On certain situations, it is useful to provide your **collaborators** with a tool for installing/removing/updating packages and performing various types of operations.  
 UPI is an easy-to-use tool, if you're interested in creating a custom post-installation script, just fork the project and create your script in the **scripts** folder.
 At the moment I am working on a detailed **Wiki** where to step by step how to create a custom script.
 
-## Your distribution is not supported?
-Ask for integration in the [Issues](https://github.com/mirkobrombin/Universal-Post-Install/issues) section.
