@@ -19,8 +19,18 @@
 '''
 
 import helper
+import models
 import argparse
 import sys
+import os
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, Gdk
+
+if os.getuid() == 0:
+    root = True
+else:
+    root = False
 
 # define script args
 parser = argparse.ArgumentParser(
@@ -32,6 +42,16 @@ args = parser.parse_args()
 
 # start the script
 if args.gtk == True:
-    helper.load_script(type="gtk")
+    if root == True:
+        helper.load_script(type="gtk")
+    else:
+        dialog = models.Dialog("UPI - Error!", 
+            "The flag (-gtk) needs the program to run as sudo! <a href=\"https://github.com/mirkobrombin/Universal-Post-Install/blob/master/README.md\" " "title=\"see here\">see here</a> how to do it", 
+            True,
+            580, 
+            200,
+            True,
+            False)
+        dialog.run()
 else:
     helper.load_script()

@@ -29,6 +29,12 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 from itertools import chain
 
+g = False
+
+for px in sys.argv:
+    if px == '-gtk':
+        g = True
+
 class shell_colors:
     HEADER = '\033[95m'
     INFO = '\033[94m'
@@ -38,7 +44,7 @@ class shell_colors:
     ERROR = '\033[91m'
     END = '\033[0m'
     BOLD = '\033[1m'
-
+    
 def exit():
     do('exit')
     quit()
@@ -227,7 +233,7 @@ def load_script(type="cli"):
         if type == "cli":
             __import__("scripts." + distro.name.lower())
         else:
-            sys.argv.append('--gtk')
+            sys.argv.append('-gtk')
             sys.argv.append(True)
             __import__("scripts." + distro.name.lower())
     except ImportError:

@@ -23,11 +23,8 @@ import os
 g = False
 
 for px in sys.argv:
-    if px == '--gtk':
-        idx = sys.argv.index(px)
-        sys.argv.pop(idx)
-        g = sys.argv[idx]
-        sys.argv.pop(idx)
+    if px == '-gtk':
+        g = True
 
 # Define the package manager
 E = "apt"

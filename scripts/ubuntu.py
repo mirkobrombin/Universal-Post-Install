@@ -17,6 +17,14 @@
    along with Universal Post Install.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import helper
+import sys
+import os
+
+g = False
+
+for px in sys.argv:
+    if px == '-gtk':
+        g = True
 
 # Define the package manager
 E = "apt"
@@ -116,4 +124,4 @@ try:
     voices = eval('pi.voices_' + distro.lang)
 except AttributeError:
     voices = pi.voices_en_US
-helper.steps(voices, pi)
+helper.steps(voices, pi, g)
