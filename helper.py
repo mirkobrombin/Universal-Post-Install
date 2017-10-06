@@ -113,13 +113,27 @@ def steps(voices, pi, gtk=False):
         index=0
         win = Gtk.Window(title="UPI - " + distro.name + " - " + distro.codename)
         win.set_border_width(10)
+        style_provider = Gtk.CssProvider()
+        css = open('style.css')
+        css_data = css.read()
+        css.close()
+        style_provider.load_from_data(css_data)
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(), 
+            style_provider,     
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
         hb = Gtk.HeaderBar()
         hb.set_show_close_button(True)
         hb.props.title = "UPI - " + distro.name + " - " + distro.codename
-        win.set_titlebar(hb)
+        win.set_titlebar(hb) 
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        distro_label = Gtk.Label("Detected " + distro.name + " - " + distro.codename + " - " + distro.release)
-        vbox.pack_start(distro_label, True, True, 0)
+        distro_title_label = Gtk.Label(distro.name)
+        distro_title_label.get_style_context().add_class("distroTitle")
+        vbox.pack_start(distro_title_label, True, True, 0)
+        distro_description_label = Gtk.Label(distro.codename + " - " + distro.release)
+        distro_description_label.get_style_context().add_class("distroDescription")
+        vbox.pack_start(distro_description_label, True, True, 0)
         btn_quit = Gtk.Button.new_with_label("Quit")
         btn_quit.connect("clicked", sys.exit)
         vbox.pack_start(btn_quit, True, True, 0)
