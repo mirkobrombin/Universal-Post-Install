@@ -155,6 +155,9 @@ def pkg_add_repo(repo, engine):
     if engine == "dnf":
         do("dnf config-manager --add-repo " + repo + " -y", True)
         return do("dnf config-manager --set-enabled " + repo + " -y", True)
+    if engine == "yum":
+        do("yum-config-manager --add-repo " + repo + " -y", True)
+        return do("dnf config-manager --set-enabled " + repo + " -y", True)
     if engine == "pacman":
         print ("Use helper.do(command, sudo) instead of this function.")
         return False
@@ -165,6 +168,8 @@ def pkg_update(engine):
         return do("apt update", True)
     if engine == "dnf":
         return do("dnf update", True)
+    if engine == "yum":
+        return do("yum update", True)
     if engine == "pacman":
         return do("pacman -Syu --noconfirm", True)
 
@@ -174,6 +179,8 @@ def pkg_install(pkg, engine):
         return do("apt install " + pkg + " -y", True)
     if engine == "dnf":
         return do("dnf install " + pkg + " -y", True)
+    if engine == "yum":
+        return do("yum install " + pkg + " -y", True)
     if engine == "pacman":
         return do("pacman -S " + pkg + " --noconfirm", True)
 
@@ -183,6 +190,8 @@ def pkg_remove(pkg, engine):
         return do("apt remove " + pkg + " -y", True)
     if engine == "dnf":
         return do("dnf remove " + pkg + " -y", True)
+    if engine == "yum":
+        return do("yum remove " + pkg + " -y", True)
     if engine == "pacman":
         return do("pacman -R " + pkg + " --noconfirm", True)
 
@@ -192,6 +201,8 @@ def pkg_upgrade(pkg, engine):
         return do("apt upgrade " + pkg + " -y", True)
     if engine == "dnf":
         return do("dnf upgrade " + pkg + " -y", True)
+    if engine == "yum":
+        return do("yum upgrade " + pkg + " -y", True)
     if engine == "pacman":
         return do("pacman -Syu " + pkg + " --noconfirm", True)
 
@@ -201,6 +212,8 @@ def pkg_sys_upgrade(engine):
         return do("apt full-upgrade -y", True)
     if engine == "dnf":
         return do("dnf upgrade -y", True)
+    if engine == "yum":
+        return do("yum upgrade -y", True)
     if engine == "pacman":
         return do("pacman -Syu --noconfirm", True)
 
