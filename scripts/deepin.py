@@ -50,6 +50,7 @@ if distro.release == "15.4.1":
             ("Install Natron ", "install_natron"),
             ("Install Lightworks ", "install_lightworks"),
             ("Install Firefox ", "install_firefox"),
+            ("Install Group and user management ", "install_gnome_system_tools"),
             ("Install more applications ", "launch_store"),
         ]
         voices_it_IT = [
@@ -64,6 +65,7 @@ if distro.release == "15.4.1":
             ("Installa Natron ", "install_natron"),
             ("Installa Lightworks ", "install_lightworks"),
             ("Installa Firefox ", "install_firefox_it"),
+            ("Installa Gestione Gruppi e Utenti ", "install_gnome_system_tools"),
             ("Installa altre applicazioni ", "launch_store"), 
         ]
        
@@ -132,6 +134,10 @@ if distro.release == "15.4.1":
 
         def install_firefox_it(self, g=False):
             helper.pkg_install("firefox firefox-locale-it", E)
+            helper.pkg_update(E)
+
+        def install_gnome_system_tools(self, g=False):
+            helper.pkg_install("gnome-system-tools", E)
             helper.pkg_update(E)
 
         def launch_store(self, g=False):
