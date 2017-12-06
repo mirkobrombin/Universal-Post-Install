@@ -18,6 +18,10 @@ Enter in folder **Universal-Post-Install** and run: **main.py**:
 Enter in folder **Universal-Post-Install** and run: **main.py** with **-gtk** flag:
 	```sudo python main.py -gtk```
 
+## Requirements
+- python 
+- python-gi
+
 ## Translations:
 Scripts for each distribution are not necessarily written by the same creator of UPI, so it may happen that it is not available in the language of your system. If the script did not find a version that corresponds to your language, it will load it in English.
 
