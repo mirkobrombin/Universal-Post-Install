@@ -35,7 +35,7 @@ helper.website("https://linuxhub.it")
  
 # Check for release
 distro = helper.get_distro()
-if distro.release == "15.4.1":
+if distro.release == "15.4.1" or distro.release == "15.5":
     class PostInstall:
         global E
         # Define menu voices
