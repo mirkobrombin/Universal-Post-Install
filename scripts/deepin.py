@@ -40,7 +40,7 @@ if distro.release == "15.4.1" or distro.release == "15.5":
         global E
         # Define menu voices
         voices_en_US = [
-            ("Abilita PPA (add-apt-repository)", "enable_ppa"),
+            ("Enable PPA (add-apt-repository)", "enable_ppa"),
             ("Install Deepin Deb Installer ", "install_ddi"),
             ("Install Deepin System Monitor ", "install_deepinsysmonitor"), 
             ("Install Deepin Presentation Assistant ", "install_dpassistant"),  
