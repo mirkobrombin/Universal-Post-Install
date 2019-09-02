@@ -1,5 +1,5 @@
 '''
-   Copyright 2017 Mirko Brombin (brombinmirko@gmail.com)
+   Copyright 2017 Mirko Brombin (send@mirko.pm)
 
    This file is part of Universal Post Install.
 
@@ -33,11 +33,16 @@ helper.title("Fedora")
 helper.author("gstux")
 helper.website("https://linuxhub.it")
 
+supported_versions = [
+    "28",
+    "29",
+    "30"
+]
 # Check for release
 distro = helper.get_distro()
 helper.warning("The script for Fedora has not been tested yet.")
 helper.warning("Production usage is not recommended at this time.")
-if distro.release == "29" or distro.release == "28":
+if distro.release in supported_versions:
     class PostInstall:
         global E
         # Define menu voices

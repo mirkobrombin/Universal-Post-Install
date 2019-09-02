@@ -1,5 +1,5 @@
 '''
-   Copyright 2017 Mirko Brombin (brombinmirko@gmail.com)
+   Copyright 2017 Mirko Brombin (send@mirko.pm)
  
    This file is part of Universal Post Install.
  
@@ -32,10 +32,15 @@ E = "apt"
 helper.title("Deepin")
 helper.author("Massimo Antonio Carofano & Mirko Brombin")
 helper.website("https://linuxhub.it")
- 
+
+supported_versions = [
+    "15.5", 
+    "15.6"
+]
+
 # Check for release
 distro = helper.get_distro()
-if distro.release in ["15.5", "15.6"]:
+if distro.release in supported_versions:
     class PostInstall:
         global E
         # Define menu voices
