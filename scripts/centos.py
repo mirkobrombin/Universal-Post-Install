@@ -39,7 +39,7 @@ supported_versions = [
 
 # Check for release
 distro = helper.get_distro()
-helper.warning("TThis script is intended for use in server environments.")
+helper.warning("This script is intended for use in server environments.")
 if distro.release in supported_versions:
     class PostInstall:
         global E

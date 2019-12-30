@@ -284,4 +284,11 @@ def load_script(type="cli"):
             sys.argv.append(True)
             __import__("scripts." + distro.name.lower())
     except ImportError:
-        print("This distribution is currently not supported!")
+        print("\
+            This distribution is currently not supported!\n\
+            {name} {codename} - {release}".format(
+                name = distro.name,
+                codename = distro.codename,
+                release = distro.release
+            )
+        )
