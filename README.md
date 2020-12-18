@@ -5,8 +5,6 @@ Author: Mirko Brombin
 
 This script allows you to perform actions that are normally performed after installing a Linux distribution. The system automatically detects the distribution and language you are using and executes the appropriate script.
 
-> If you are watching this project from GitHub: please note that this is a mirror and the official project is available at the https://git.mirko.pm/brombinmirko/Universal-Post-Install/
-
 ## How to use it?
 Download the updated zip [here](https://github.com/brombinmirko/Universal-Post-Install/-/archive/master/Universal-Post-Install-master.zip), or clone from GitHub:  
 	```git clone https://github.com/brombinmirko/Universal-Post-Install.git```  
